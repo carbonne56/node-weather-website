@@ -12,11 +12,19 @@ const forecast = (latitude, longitude, callback) => {
     } else if (body.error) {
       callback("Unable to find location", undefined)
     } else {
-      callback(undefined, body.current.weather_descriptions[0] + '. Its currently ' + body.current.temperature + ' out. It feels like ' +
-        body.current.feelslike
+      callback(undefined, body.current.weather_descriptions[0] + '. Its currently ' + body.current.temperature + ' degrees out and it feels like ' +
+        body.current.feelslike + ' degrees. The wind is blowing from ' + getWindDirection(body.current.wind_dir) + ' at a speed of ' + body.current.wind_speed + ' km/h'
       )
     }
   })
 }
-
+const getWindDirection = windDirection => {
+  switch (windDirection) {
+    case 'S': return 'South'
+    case 'N': return 'North'
+    case 'E': return 'East'
+    case 'W': return 'West'
+    default: return windDirection
+  }
+}
 module.exports = forecast;
